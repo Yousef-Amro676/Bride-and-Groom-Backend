@@ -1,0 +1,378 @@
+{
+  "info": {
+    "name": "💍 Bride & Groom API",
+    "description": "Complete REST API collection for the Bride & Groom Flutter application.\nBase URL: http://localhost:5000\n\nHow to use:\n1. Import this file into Postman\n2. Set the base_url variable to your server address\n3. After login/signup, copy the token into the auth_token variable",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url",   "value": "http://localhost:5000" },
+    { "key": "auth_token", "value": "PASTE_YOUR_JWT_TOKEN_HERE" },
+    { "key": "user_id",    "value": "PASTE_USER_ID_HERE" },
+    { "key": "vendor_id",  "value": "PASTE_VENDOR_ID_HERE" },
+    { "key": "booking_id", "value": "PASTE_BOOKING_ID_HERE" }
+  ],
+  "item": [
+    {
+      "name": "🏠 Health Check",
+      "item": [
+        {
+          "name": "Server Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/", "host": ["{{base_url}}"], "path": [""] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "👤 Users & Auth",
+      "item": [
+        {
+          "name": "Signup — Register New User",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Yousef Ahmed\",\n  \"email\": \"yousef@gmail.com\",\n  \"password\": \"123456\",\n  \"phone\": \"+201001234567\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/api/users/signup", "host": ["{{base_url}}"], "path": ["api","users","signup"] }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"yousef@gmail.com\",\n  \"password\": \"123456\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/api/users/login", "host": ["{{base_url}}"], "path": ["api","users","login"] }
+          }
+        },
+        {
+          "name": "Get User Profile",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+            "url": { "raw": "{{base_url}}/api/users/profile/{{user_id}}", "host": ["{{base_url}}"], "path": ["api","users","profile","{{user_id}}"] }
+          }
+        },
+        {
+          "name": "Update User Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type",  "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Yousef Updated\",\n  \"phone\": \"+201009999999\",\n  \"weddingDate\": \"2025-06-15\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/api/users/profile/{{user_id}}", "host": ["{{base_url}}"], "path": ["api","users","profile","{{user_id}}"] }
+          }
+        },
+        {
+          "name": "Get All Users (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+            "url": { "raw": "{{base_url}}/api/users", "host": ["{{base_url}}"], "path": ["api","users"] }
+          }
+        },
+        {
+          "name": "Delete User (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+            "url": { "raw": "{{base_url}}/api/users/{{user_id}}", "host": ["{{base_url}}"], "path": ["api","users","{{user_id}}"] }
+          }
+        },
+        {
+          "name": "Signup — Validation Error Test",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"\",\n  \"email\": \"not-an-email\",\n  \"password\": \"123\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/api/users/signup", "host": ["{{base_url}}"], "path": ["api","users","signup"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🏪 Vendors",
+      "item": [
+        {
+          "name": "Get All Vendors",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/vendors", "host": ["{{base_url}}"], "path": ["api","vendors"] }
+          }
+        },
+        {
+          "name": "Filter by Category — Photographer",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/vendors?category=photographer",
+              "host": ["{{base_url}}"],
+              "path": ["api","vendors"],
+              "query": [{ "key": "category", "value": "photographer" }]
+            }
+          }
+        },
+        {
+          "name": "Filter by Location — Cairo",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/vendors?location=cairo",
+              "host": ["{{base_url}}"],
+              "path": ["api","vendors"],
+              "query": [{ "key": "location", "value": "cairo" }]
+            }
+          }
+        },
+        {
+          "name": "Filter by Price Range",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/vendors?minPrice=1000&maxPrice=5000",
+              "host": ["{{base_url}}"],
+              "path": ["api","vendors"],
+              "query": [
+                { "key": "minPrice", "value": "1000" },
+                { "key": "maxPrice", "value": "5000" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Search Vendors by Name",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/vendors?search=ahmed",
+              "host": ["{{base_url}}"],
+              "path": ["api","vendors"],
+              "query": [{ "key": "search", "value": "ahmed" }]
+            }
+          }
+        },
+        {
+          "name": "Sort by Price (Low to High)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/vendors?sort=price",
+              "host": ["{{base_url}}"],
+              "path": ["api","vendors"],
+              "query": [{ "key": "sort", "value": "price" }]
+            }
+          }
+        },
+        {
+          "name": "Sort by Price (High to Low)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/vendors?sort=-price",
+              "host": ["{{base_url}}"],
+              "path": ["api","vendors"],
+              "query": [{ "key": "sort", "value": "-price" }]
+            }
+          }
+        },
+        {
+          "name": "Combined Filter — Photographer in Cairo under 5000",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/vendors?category=photographer&location=cairo&maxPrice=5000&sort=price",
+              "host": ["{{base_url}}"],
+              "path": ["api","vendors"],
+              "query": [
+                { "key": "category",  "value": "photographer" },
+                { "key": "location",  "value": "cairo" },
+                { "key": "maxPrice",  "value": "5000" },
+                { "key": "sort",      "value": "price" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Vendor by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/vendors/{{vendor_id}}", "host": ["{{base_url}}"], "path": ["api","vendors","{{vendor_id}}"] }
+          }
+        },
+        {
+          "name": "Create Vendor (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type",  "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"vendorName\": \"Ahmed Photography Studio\",\n  \"category\": \"photographer\",\n  \"description\": \"Professional wedding photography with 10 years of experience.\",\n  \"location\": \"cairo\",\n  \"price\": 3500,\n  \"phone\": \"+201001234567\",\n  \"email\": \"ahmed@photo.com\",\n  \"available\": true\n}"
+            },
+            "url": { "raw": "{{base_url}}/api/vendors", "host": ["{{base_url}}"], "path": ["api","vendors"] }
+          }
+        },
+        {
+          "name": "Update Vendor (Admin)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type",  "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"price\": 4000,\n  \"available\": false\n}"
+            },
+            "url": { "raw": "{{base_url}}/api/vendors/{{vendor_id}}", "host": ["{{base_url}}"], "path": ["api","vendors","{{vendor_id}}"] }
+          }
+        },
+        {
+          "name": "Delete Vendor (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+            "url": { "raw": "{{base_url}}/api/vendors/{{vendor_id}}", "host": ["{{base_url}}"], "path": ["api","vendors","{{vendor_id}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📅 Bookings",
+      "item": [
+        {
+          "name": "Create Booking",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type",  "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"{{user_id}}\",\n  \"vendorId\": \"{{vendor_id}}\",\n  \"eventDate\": \"2025-08-20T18:00:00.000Z\",\n  \"notes\": \"Please arrive 1 hour early for setup.\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/api/bookings", "host": ["{{base_url}}"], "path": ["api","bookings"] }
+          }
+        },
+        {
+          "name": "Get My Bookings (by User ID)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+            "url": { "raw": "{{base_url}}/api/bookings/my/{{user_id}}", "host": ["{{base_url}}"], "path": ["api","bookings","my","{{user_id}}"] }
+          }
+        },
+        {
+          "name": "Get Booking by ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+            "url": { "raw": "{{base_url}}/api/bookings/{{booking_id}}", "host": ["{{base_url}}"], "path": ["api","bookings","{{booking_id}}"] }
+          }
+        },
+        {
+          "name": "Get All Bookings (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+            "url": { "raw": "{{base_url}}/api/bookings", "host": ["{{base_url}}"], "path": ["api","bookings"] }
+          }
+        },
+        {
+          "name": "Update Booking Status (Admin)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type",  "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"confirmed\",\n  \"paymentStatus\": \"paid\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/api/bookings/{{booking_id}}", "host": ["{{base_url}}"], "path": ["api","bookings","{{booking_id}}"] }
+          }
+        },
+        {
+          "name": "Cancel Booking",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+            "url": { "raw": "{{base_url}}/api/bookings/{{booking_id}}", "host": ["{{base_url}}"], "path": ["api","bookings","{{booking_id}}"] }
+          }
+        },
+        {
+          "name": "Booking — Validation Error Test",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type",  "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"vendorId\": \"not-valid-id\",\n  \"userId\": \"\",\n  \"eventDate\": \"not-a-date\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/api/bookings", "host": ["{{base_url}}"], "path": ["api","bookings"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🔒 Error Cases",
+      "item": [
+        {
+          "name": "404 — Unknown Route",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/unknown", "host": ["{{base_url}}"], "path": ["api","unknown"] }
+          }
+        },
+        {
+          "name": "401 — No Token Provided",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/users", "host": ["{{base_url}}"], "path": ["api","users"] }
+          }
+        },
+        {
+          "name": "400 — Invalid MongoDB ObjectId",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/vendors/invalid-id-123", "host": ["{{base_url}}"], "path": ["api","vendors","invalid-id-123"] }
+          }
+        }
+      ]
+    }
+  ]
+}

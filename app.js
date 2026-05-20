@@ -1,6 +1,8 @@
 
 const express = require('express');
 const cors = require('cors');
+const mongoose = require('mongoose');
+const connectDB = require('./config/db');
 
 const app = express();
 
@@ -16,6 +18,28 @@ app.use(express.json());
 
 // Parse URL-encoded bodies
 app.use(express.urlencoded({ extended: true }));
+
+// ─────────────────────────────────────────────
+//  Ensure MongoDB is connected before handling
+//  any API request (critical for Vercel serverless
+//  where the first request may arrive before the
+//  eager connection in server.js completes)
+// ─────────────────────────────────────────────
+app.use('/api', async (req, res, next) => {
+  try {
+    if (mongoose.connection.readyState !== 1) {
+      console.log('⏳ MongoDB not ready (state:', mongoose.connection.readyState, ') — reconnecting...');
+      await connectDB();
+    }
+    next();
+  } catch (error) {
+    console.error('🔴 DB middleware — connection failed:', error.message);
+    return res.status(503).json({
+      success: false,
+      message: 'Database connection unavailable — please try again shortly',
+    });
+  }
+});
 
 //check
 app.get('/', (req, res) => {

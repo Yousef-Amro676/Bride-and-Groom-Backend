@@ -5,7 +5,7 @@
 
 const User = require('../models/User');
 const Booking = require('../models/Booking');
-const Order = require('../models/Order');
+
 const Vendor = require('../models/Vendor');
 const Photographer = require('../models/Photographer');
 const Planner = require('../models/Planner');
@@ -30,20 +30,14 @@ const getDashboardStats = async (req, res, next) => {
       totalBookingRevenue += bookings[i].totalPrice || 0;
     }
 
-    // 3. Calculate total revenue from all orders using a simple loop
-    const orders = await Order.find({});
-    let totalOrderRevenue = 0;
-    for (let i = 0; i < orders.length; i++) {
-      totalOrderRevenue += orders[i].totalAmount || 0;
-    }
+
 
     res.status(200).json({
       success: true,
       data: {
         totalUsers: userCount,
         totalBookings: bookings.length,
-        totalOrders: orders.length,
-        totalRevenue: totalBookingRevenue + totalOrderRevenue,
+        totalRevenue: totalBookingRevenue,
         counts: {
           vendors: vendorCount,
           photographers: photographerCount,

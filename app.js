@@ -31,8 +31,7 @@ app.get('/', (req, res) => {
       dresses: '/api/dresses',
       photographers: '/api/photographers',
       planners: '/api/planners',
-      rings: '/api/rings',
-      orders: '/api/orders',
+      hairstyles: '/api/hairstyles',
     },
   });
 });
@@ -46,10 +45,7 @@ app.use('/api/bookings', require('./routes/bookingRoutes'));
 app.use('/api/dresses', require('./routes/dressRoutes'));
 app.use('/api/photographers', require('./routes/photographerRoutes'));
 app.use('/api/planners', require('./routes/plannerRoutes'));
-app.use('/api/rings', require('./routes/ringRoutes'));
-app.use('/api/orders', require('./routes/orderRoutes'));
 app.use('/api/hairstyles', require('./routes/hairStyleRoutes'));
-app.use('/api/favorites', require('./routes/favoriteRoutes'));
 
 // Admin
 app.use('/api/admin', require('./routes/adminRoutes'));

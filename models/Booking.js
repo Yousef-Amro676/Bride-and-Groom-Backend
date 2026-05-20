@@ -23,7 +23,7 @@ const bookingSchema = new mongoose.Schema(
     itemType: {
       type: String,
       required: true,
-      enum: ['Photographer', 'Planner', 'HairStyle', 'Vendor', 'Dress', 'Ring'],
+      enum: ['Photographer', 'Planner', 'HairStyle', 'Vendor', 'Dress'],
     },
     // We store the name directly here so it's easy to show in the UI 
     // without doing complex database 'populate' operations.

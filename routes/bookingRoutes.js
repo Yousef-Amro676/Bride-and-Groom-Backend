@@ -33,7 +33,6 @@ const bookingRules = [
       'HairStyle',
       'Vendor',
       'Dress',
-      'Ring'
     ]).withMessage('Invalid Item Type'),
 
   body('userId')

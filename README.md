@@ -16,7 +16,10 @@ Bride_and_Groom_BackEnd/
 ├── package.json
 ├── .env                            ← Environment secrets (never commit!)
 ├── .gitignore
-├── BrideAndGroom.postman_collection.json  ← Import into Postman
+│
+├── postman/                        ← Postman collections (documentation)
+│   ├── BrideAndGroom_API_Collection.json
+│   └── BrideAndGroom_Admin_Collection.json
 │
 ├── config/
 │   └── db.js                       ← MongoDB Atlas connection
@@ -28,28 +31,27 @@ Bride_and_Groom_BackEnd/
 │   ├── Dress.js
 │   ├── Photographer.js
 │   ├── Planner.js
-│   ├── Ring.js
-│   └── Order.js
+│   └── HairStyle.js
 │
 ├── controllers/
 │   ├── userController.js           ← Auth (JWT) + profile
 │   ├── vendorController.js         ← CRUD + filtering/search/sort
 │   ├── bookingController.js        ← Booking workflow
+│   ├── adminController.js          ← Admin dashboard statistics
 │   ├── dressController.js
 │   ├── photographerController.js
 │   ├── plannerController.js
-│   ├── ringController.js
-│   └── orderController.js
+│   └── hairStyleController.js
 │
 ├── routes/
 │   ├── userRoutes.js               ← With express-validator rules
 │   ├── vendorRoutes.js
 │   ├── bookingRoutes.js
+│   ├── adminRoutes.js
 │   ├── dressRoutes.js
 │   ├── photographerRoutes.js
 │   ├── plannerRoutes.js
-│   ├── ringRoutes.js
-│   └── orderRoutes.js
+│   └── hairStyleRoutes.js
 │
 └── middleware/
     ├── authMiddleware.js            ← protect() + adminOnly()
@@ -204,14 +206,50 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR...
 
 ---
 
-## 📮 Postman Collection
+## 📮 API Testing with Postman
 
-Import `BrideAndGroom.postman_collection.json` into Postman.
+This project includes ready-to-import Postman collections inside the `postman/` folder:
 
-Set collection variables:
-- `base_url` → `http://localhost:5000`
-- `auth_token` → paste JWT from login response
-- `user_id`, `vendor_id`, `booking_id` → paste IDs from responses
+| File | Description |
+|------|-------------|
+| `BrideAndGroom_API_Collection.json` | All public & user API endpoints (auth, vendors, bookings) |
+| `BrideAndGroom_Admin_Collection.json` | Admin-only endpoints (dashboard stats, user/vendor/booking management) |
+
+### How to Import
+
+1. Open **Postman** (desktop or web)
+2. Click **Import** (top-left)
+3. Drag & drop the `.json` files from the `postman/` folder — or click **Upload Files** and browse to them
+4. Both collections will appear in your sidebar
+
+### Setup Variables
+
+After importing, set the collection variables:
+
+| Variable | Value | Where to get it |
+|----------|-------|------------------|
+| `base_url` | `http://localhost:5000` | Your server address |
+| `auth_token` | `eyJhbGciOi...` | Copy from Login or Signup response |
+| `user_id` | `664f...` | Copy `_id` from any user response |
+| `vendor_id` | `664f...` | Copy `_id` from any vendor response |
+| `booking_id` | `664f...` | Copy `_id` from any booking response |
+
+### Testing Workflow
+
+1. **Start your server** → `npm run dev`
+2. **Signup or Login** → copy the `token` from the response
+3. **Paste token** into the `auth_token` collection variable
+4. **Test endpoints** → run any request in the collection
+5. **Admin endpoints** → login with admin credentials (`admin@brideandgroom.com` / `admin123456`)
+
+### Example Base URL
+
+```
+http://localhost:5000
+```
+
+> **Note:** These Postman collections are documentation/testing assets only.  
+> They are **not** connected to any runtime logic and have zero impact on the backend.
 
 ---
 
